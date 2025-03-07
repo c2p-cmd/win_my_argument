@@ -1,0 +1,8 @@
+/venv/
+/app/__pycache__/
+/app/*.pyc
+/app/*.pyo
+/app/debate/__pycache__/
+/app/debate/*.pyc
+/app/debate/*.pyo
+.env
