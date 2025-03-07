@@ -14,7 +14,7 @@ parser.add_argument(
 args = parser.parse_args()
 
 if __name__ == "__main__":
-    load_dotenv()
+    load_dotenv('../.env')
     result = asyncio.run(
         make_debate(query=args.query),
         debug=True,
