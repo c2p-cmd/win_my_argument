@@ -30,7 +30,7 @@ __left_wing_leader = {
     "IN": "INC",
 }
 
-__country = "US"
+__country = "DE"
 
 system_prompts: dict[str, str] = {
     "right_wing_system_prompt": f"""
