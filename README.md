@@ -60,3 +60,7 @@ The application requires Python 3.8+ and uses the following key dependencies:
 - pydantic-ai - For agent-based AI workflows
 - duckduckgo_search - For retrieving relevant information
 - Google's Gemini AI model get your api key (here)[https://aistudio.google.com/] and create a `.env` see (`.env.example`)[.env.example]
+
+## License
+
+(MIT)[LICENSE]
