@@ -7,7 +7,7 @@ from os import getenv
 
 __model = GeminiModel(
     model_name="gemini-2.0-flash",
-    provider=GoogleGLAProvider(api_key=getattr("GOOGLE_API_KEY")),
+    provider=GoogleGLAProvider(api_key=getenv("GOOGLE_API_KEY")),
 )
 
 # right wing agents
@@ -43,6 +43,7 @@ left_wing_researcher_agent = Agent(
     deps_type=str,
     result_type=str,
     result_retries=2,
+    tools=[searcher()],
     system_prompt=system_prompts["left_wing_researcher_agent_prompt"],
 )
 
@@ -77,8 +78,8 @@ async def add_left_wing_data(ctx: RunContext[str]) -> str:
 
 
 @left_wing_agent.tool
-async def right_wing_additional_data(ctx: RunContext[str]) -> str:
-    result = await right_wing_researcher_agent.run(
+async def left_wing_additional_data(ctx: RunContext[str]) -> str:
+    result = await left_wing_researcher_agent.run(
         "Here is the data for you search.",
         deps=ctx.deps,
     )
