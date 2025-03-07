@@ -8,24 +8,24 @@ from debate.model import (
 )
 
 
-async def make_debate(query: str) -> tuple[DebateMessage]:
+async def make_debate(query: str) -> list[DebateMessage]:
     right_result = await right_wing_agent.run("Here is the debate topic", deps=query)
-    left_result = await left_wing_agent.run("Here is the debate topic", deps=query)
-
     message_store.append(
         DebateMessage(
             agent_type=AgentType.RIGHT_WING,
-            message=right_result,
+            message=right_result.data,
         )
     )
+    
+    left_result = await left_wing_agent.run("Here is the debate topic", deps=query)
     message_store.append(
         DebateMessage(
             agent_type=AgentType.LEFT_WING,
-            message=left_result,
+            message=left_result.data,
         )
     )
 
-    return (
-        get_right_wing_message(right_result),
-        get_left_wing_message(left_result),
-    )
+    return [
+        get_right_wing_message(right_result.data),
+        get_left_wing_message(left_result.data),
+    ]
