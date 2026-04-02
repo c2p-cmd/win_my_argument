@@ -5,7 +5,7 @@ from pydantic_ai.common_tools.duckduckgo import duckduckgo_search_tool as search
 from .model import system_prompts
 
 __model = OpenAIChatModel(
-    model_name="deepseek-r1:8b",
+    model_name="gemini-3-flash-preview",
     provider=OllamaProvider(base_url="http://localhost:11434/v1"),
 )
 
