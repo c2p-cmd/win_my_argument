@@ -14,6 +14,10 @@ The application:
 4. Displays arguments side-by-side with model performance statistics
 5. Allows comparison of arguments in an intuitive TUI layout
 
+## Screenshot
+
+![ss1](./screenshots/Screenshot%202026-04-02%20at%2017.54.11.png)
+
 ## Installation
 
 ```bash
@@ -105,13 +109,14 @@ win_my_argument/
 
 The application defaults to US political figures, but can be configured for other countries by modifying the `__country` variable in `debater/debate/model.py`.
 
-### Currently supported countries:
+### Currently supported countries
 
 - **US** - Donald Trump vs Joe Biden
 - **DE** - Alice Weidel vs Olaf Scholz
 - **IN** - BJP vs INC
 
 To change country, edit this line in `debater/debate/model.py`:
+
 ```python
 __country = "US"  # Change to "DE" or "IN"
 ```
@@ -123,7 +128,7 @@ The application requires:
 - **Python 3.8+**
 - **Ollama** - For running local LLM models
 
-### Key Python dependencies:
+### Key Python dependencies
 
 - `pydantic-ai` - Agent-based AI workflows
 - `rich` - Beautiful terminal UI components
