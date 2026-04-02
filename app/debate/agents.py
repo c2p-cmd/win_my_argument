@@ -1,56 +1,54 @@
 from pydantic_ai import Agent, RunContext
-from pydantic_ai.models.gemini import GeminiModel
-from pydantic_ai.providers.google_gla import GoogleGLAProvider
+from pydantic_ai.models.openai import OpenAIChatModel
+from pydantic_ai.providers.ollama import OllamaProvider
 from pydantic_ai.common_tools.duckduckgo import duckduckgo_search_tool as searcher
 from .model import system_prompts
-from os import getenv
 
-__model = GeminiModel(
-    model_name="gemini-2.0-flash",
-    provider=GoogleGLAProvider(api_key=getenv("GOOGLE_API_KEY")),
+__model = OpenAIChatModel(
+    model_name="deepseek-r1:8b",
+    provider=OllamaProvider(base_url="http://localhost:11434/v1"),
 )
 
 # right wing agents
 right_wing_agent = Agent(
     model=__model,
     deps_type=str,
-    result_type=str,
-    result_retries=2,
-    
-    system_prompt=system_prompts["right_wing_system_prompt"],
+    output_type=str,
+    output_retries=2,
+    system_prompt=[system_prompts["right_wing_system_prompt"]],
 )
 
 right_wing_researcher_agent = Agent(
     model=__model,
     deps_type=str,
-    result_type=str,
-    result_retries=2,
-    tools=[searcher()],
-    system_prompt=system_prompts["right_wing_researcher_agent_prompt"],
+    output_type=str,
+    output_retries=2,
+    tools=[searcher(max_results=3)],
+    system_prompt=[system_prompts["right_wing_researcher_agent_prompt"]],
 )
 
 # left wing agents
 left_wing_agent = Agent(
     model=__model,
     deps_type=str,
-    result_type=str,
-    result_retries=2,
+    output_type=str,
+    output_retries=2,
     system_prompt=system_prompts["left_wing_system_prompt"],
 )
 
 left_wing_researcher_agent = Agent(
     model=__model,
     deps_type=str,
-    result_type=str,
-    result_retries=2,
-    tools=[searcher()],
+    output_type=str,
+    output_retries=2,
+    tools=[searcher(max_results=3)],
     system_prompt=system_prompts["left_wing_researcher_agent_prompt"],
 )
 
 
 # right wing functions
 @right_wing_agent.system_prompt
-async def add_right_wing_data(ctx: RunContext[str]) -> str:
+async def add_right_wing_agent_data(ctx: RunContext[str]) -> str:
     debate_topic = ctx.deps
     return f"This is the debate topic to show your right-wing values: '{debate_topic}'"
 
@@ -61,7 +59,7 @@ async def right_wing_additional_data(ctx: RunContext[str]) -> str:
         "Here is the data for you search.",
         deps=ctx.deps,
     )
-    return result.data
+    return result.output
 
 
 @right_wing_researcher_agent.system_prompt
@@ -72,7 +70,7 @@ async def add_right_wing_data(ctx: RunContext[str]) -> str:
 
 # left wing functions
 @left_wing_agent.system_prompt
-async def add_left_wing_data(ctx: RunContext[str]) -> str:
+async def add_left_wing_agent_data(ctx: RunContext[str]) -> str:
     debate_topic = ctx.deps
     return f"This is the debate topic to show your left-wing values: '{debate_topic}'"
 
@@ -83,7 +81,7 @@ async def left_wing_additional_data(ctx: RunContext[str]) -> str:
         "Here is the data for you search.",
         deps=ctx.deps,
     )
-    return result.data
+    return result.output
 
 
 @left_wing_researcher_agent.system_prompt

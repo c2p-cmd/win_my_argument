@@ -33,7 +33,7 @@ pip install -r requirements.txt
 Run the application from the command line with a debate topic:
 
 ```bash
-python -m app.main --query "Should we increase the minimum wage?"
+python -m app.main
 ```
 
 The application will return arguments from both perspectives, attributed to current political figures (defaults to US political figures).
@@ -43,6 +43,7 @@ The application will return arguments from both perspectives, attributed to curr
 The application defaults to US political figures, but can be configured for other countries by modifying the `__country` variable in model.py.
 
 Currently supported countries:
+
 - US (Donald Trump vs Joe Biden)
 - DE (Alice Weidel vs Olaf Scholz)
 - IN (BJP vs INC)
@@ -57,9 +58,10 @@ Currently supported countries:
 ## Requirements
 
 The application requires Python 3.8+ and uses the following key dependencies:
+
 - pydantic-ai - For agent-based AI workflows
 - duckduckgo_search - For retrieving relevant information
-- Google's Gemini AI model get your api key [here](https://aistudio.google.com/) and create a `.env` see [`.env.example`](.env.example)
+- Uses ollama for models [learn more on changing client](https://ai.pydantic.dev/models/openai/#ollama)
 
 ## License
 
